@@ -21,6 +21,8 @@ import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import PersonIcon from "@mui/icons-material/Person";
+import CircleIcon from "@mui/icons-material/Circle";
 
 const initialTaskData = {
   ticketID: "",
@@ -33,6 +35,26 @@ const initialTaskData = {
   comments: "",
 };
 const statusOptions = ["In Progress", "Completed", "Not Started"];
+const componentOptions = [
+  "DevGallery",
+  "Device Logs",
+  "Messaging",
+  "Task Management",
+  "Login",
+  "Registry",
+  "HomePage",
+  "Profile Selector",
+];
+const componentColors = {
+  "Dev Gallery": "red",
+  "Device Logs": "blue",
+  Messaging: "green",
+  "Task Management": "purple",
+  Login: "yellow",
+  Registry: "pink",
+  HomePage: "grey",
+};
+const assigneeOptions = ["Victor", "Lewey", "Richard", "Suzane"];
 const statusColors = {
   "Not Started": "red",
   "In Progress": "blue",
@@ -166,7 +188,9 @@ const Project = () => {
                 <TableCell style={{ color: statusColors[task.status] }}>
                   {task.status}
                 </TableCell>
-                <TableCell>{task.component}</TableCell>
+                <TableCell style={{ color: componentColors[task.component] }}>
+                  {task.component}
+                </TableCell>
                 <TableCell>{task.assignee}</TableCell>
                 <TableCell>{task.milestone}</TableCell>
                 <TableCell>{task.description}</TableCell>
@@ -189,7 +213,7 @@ const Project = () => {
       </TableContainer>
 
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
-        <DialogTitle>{editable ? "Edit Task" : "View Task"}</DialogTitle>
+        <DialogTitle>{editable ? "Add Task" : "View Task"}</DialogTitle>
         <DialogContent>
           <TextField
             name="title"
@@ -224,7 +248,9 @@ const Project = () => {
               </MenuItem>
             ))}
           </TextField>
+
           <TextField
+            select
             name="component"
             label="Component"
             fullWidth
@@ -232,8 +258,17 @@ const Project = () => {
             value={taskData.component}
             onChange={handleInputChange}
             disabled={!editable}
-          />
+          >
+            {componentOptions.map((option, index) => (
+              <MenuItem key={index} value={option}>
+                <CircleIcon fontSize="small" style={{ marginRight: 8 }} />{" "}
+                {option}
+              </MenuItem>
+            ))}
+          </TextField>
+
           <TextField
+            select
             name="assignee"
             label="Assignee"
             fullWidth
@@ -241,7 +276,15 @@ const Project = () => {
             value={taskData.assignee}
             onChange={handleInputChange}
             disabled={!editable}
-          />
+          >
+            {assigneeOptions.map((option, index) => (
+              <MenuItem key={index} value={option}>
+                <PersonIcon fontSize="small" style={{ marginRight: 8 }} />{" "}
+                {option}
+              </MenuItem>
+            ))}
+          </TextField>
+
           <TextField
             name="milestone"
             label="Milestone"
